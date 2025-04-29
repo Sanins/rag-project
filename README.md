@@ -35,3 +35,18 @@ cd rag-project
 npm run install
 npm run dev
 ```
+
+## MySQL Database Setup (Docker)
+
+1. **Start the MySQL container**
+
+```bash
+docker compose up -d
+```
+
+2. **Resetting the db**
+
+```bash
+docker compose down -v
+docker compose up -d
+```
