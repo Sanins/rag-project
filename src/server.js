@@ -1,8 +1,11 @@
 import express from 'express';
 import { smartRAG } from './ragService.js';
+import { getPropertyDetails } from './getPropertyDetails.js'
+import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+dotenv.config();
 const app = express();
 app.use(cors());
 
@@ -24,6 +27,18 @@ app.post('/ask', async (req, res) => {
         res.status(500).json({ 
             error: "Couldn't process your request" 
         });
+    }
+});
+
+app.get('/property-notes', async (req, res) => {
+    try {
+        const result = await getPropertyDetails();
+        res.json(result);
+    } catch (error) {
+        console.error('Error processing /property-notes:', error);
+        res.status(500).json({ 
+        error: "Couldn't process your request" 
+    });
     }
 });
 
