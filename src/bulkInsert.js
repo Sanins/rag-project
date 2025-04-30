@@ -27,6 +27,8 @@ export async function bulkInsert(selectedIds, customRules) {
       const {
         id,
         access_instructions,
+        confidence_score,
+        confidence_tip,
         parking_info,
         amenities,
         postcode,
@@ -37,6 +39,8 @@ export async function bulkInsert(selectedIds, customRules) {
         UPDATE property_notes
         SET 
           access_instructions = ?,
+          confidence_score = ?,
+          confidence_tip = ?,
           parking_info = ?,
           amenities = ?,
           postcode = ?,
@@ -46,6 +50,8 @@ export async function bulkInsert(selectedIds, customRules) {
 
       await pool.query(updateQuery, [
         access_instructions,
+        confidence_score,
+        confidence_tip,
         parking_info,
         Array.isArray(amenities) ? amenities.join(', ') : amenities,
         postcode,

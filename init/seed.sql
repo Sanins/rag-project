@@ -4,6 +4,8 @@ CREATE TABLE property_notes (
   postcode VARCHAR(20),
   city VARCHAR(100),
   access_instructions TEXT,
+  confidence_score TINYINT,
+  confidence_tip TEXT,
   parking_info TEXT,
   amenities TEXT
 );

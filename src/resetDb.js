@@ -7,6 +7,8 @@ export async function resetDb() {
         postcode = NULL,
         city = NULL,
         access_instructions = NULL,
+        confidence_score = NULL,
+        confidence_tip = NULL,
         parking_info = NULL,
         amenities = NULL;
     `;
