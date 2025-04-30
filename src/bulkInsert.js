@@ -11,12 +11,12 @@ export async function getSelectedRawText(selectedIds) {
   return rows;
 }
 
-export async function bulkInsert(selectedIds, customRules) {
+export async function bulkInsert(selectedIds, customRules, aiModel) {
   try {
     const rows = await getSelectedRawText(selectedIds);
     const textFields = rows.map((row) => row.raw_text);
 
-    const { results } = await smartRAG(textFields, customRules);
+    const { results } = await smartRAG(textFields, customRules, aiModel);
 
     const updates = rows.map((row, i) => ({
       id: row.id,

@@ -15,14 +15,14 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' }));
 
 app.post('/ask', async (req, res) => {
-    const { textField, customRules } = req.body;
+    const { textField, customRules, aiModel } = req.body;
 
     if (!Array.isArray(textField) || textField.length === 0) {
         return res.status(400).json({ error: "textField must be a non-empty array" });
     }
 
     try {
-        const result = await smartRAG(textField, customRules);
+        const result = await smartRAG(textField, customRules, aiModel);
         res.json(result);
     } catch (error) {
         console.error('Error processing /ask:', error);
@@ -45,14 +45,14 @@ app.get('/property-notes', async (req, res) => {
 });
 
 app.post('/bulk-property-notes', async (req, res) => {
-    const { selectedIds } = req.body;
+    const { selectedIds, customRules, aiModel } = req.body;
 
     if (!Array.isArray(selectedIds) || selectedIds.length === 0) {
         return res.status(400).json({ error: "textField must be a non-empty array" });
     }
 
     try {
-        const result = await bulkInsert(selectedIds);
+        const result = await bulkInsert(selectedIds, customRules, aiModel);
         res.json(result);
     } catch (error) {
         console.error('Error processing /bulk-property-notes:', error);
