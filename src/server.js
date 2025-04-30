@@ -1,5 +1,7 @@
 import express from 'express';
 import { smartRAG } from './ragService.js';
+import { resetDb } from './resetDb.js';
+import { bulkInsert } from './bulkInsert.js';
 import { getPropertyDetails } from './getPropertyDetails.js'
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
@@ -41,6 +43,36 @@ app.get('/property-notes', async (req, res) => {
     });
     }
 });
+
+app.post('/bulk-property-notes', async (req, res) => {
+    const { selectedIds } = req.body;
+
+    if (!Array.isArray(selectedIds) || selectedIds.length === 0) {
+        return res.status(400).json({ error: "textField must be a non-empty array" });
+    }
+
+    try {
+        const result = await bulkInsert(selectedIds);
+        res.json(result);
+    } catch (error) {
+        console.error('Error processing /bulk-property-notes:', error);
+        res.status(500).json({ 
+            error: "Couldn't process your request" 
+        });
+    }
+});
+
+app.delete('/reset', async (req, res) => {
+    try {
+      await resetDb();
+      res.status(200).json({ message: 'Database reset successfully' }); // ✅ add response
+    } catch (error) {
+      console.error('Error processing /reset:', error);
+      res.status(500).json({ 
+        error: "Couldn't process your request" 
+      });
+    }
+  });
 
 app.listen(3000, () => {
     console.log('RAG API running on port 3000');
