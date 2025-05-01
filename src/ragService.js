@@ -131,6 +131,8 @@ export async function smartRAG(textFields, customRules, aiModel) {
 
         const structuredData = JSON.parse(response.text);
         results.push(structuredData);
+
+        console.log("Gemini response:", structuredData);
       }
 
       return {
