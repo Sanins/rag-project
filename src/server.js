@@ -3,6 +3,7 @@ import { smartRAG } from './ragService.js';
 import { resetDb } from './resetDb.js';
 import { bulkInsert } from './bulkInsert.js';
 import { getPropertyDetails } from './getPropertyDetails.js'
+import { generateMockFreeText } from './generateText.js';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -56,6 +57,18 @@ app.post('/bulk-property-notes', async (req, res) => {
         res.json(result);
     } catch (error) {
         console.error('Error processing /bulk-property-notes:', error);
+        res.status(500).json({ 
+            error: "Couldn't process your request" 
+        });
+    }
+});
+
+app.post('/generate-text', async (req, res) => {
+    try {
+        const result = await generateMockFreeText();
+        res.json({ content: result.choices[0].message.content });
+    } catch (error) {
+        console.error('Error processing /generate-text:', error);
         res.status(500).json({ 
             error: "Couldn't process your request" 
         });
