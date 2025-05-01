@@ -4,6 +4,7 @@ import { resetDb } from './resetDb.js';
 import { bulkInsert } from './bulkInsert.js';
 import { getPropertyDetails } from './getPropertyDetails.js'
 import { generateMockFreeText } from './generateText.js';
+import { generateSuggestions } from './generateSuggestions.js';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -74,6 +75,20 @@ app.post('/generate-text', async (req, res) => {
         });
     }
 });
+
+app.post('/suggestions', async (req, res) => {
+    const { input } = req.body;
+    try {
+        const result = await generateSuggestions(input);
+        res.json({ content: result.choices[0].message.content });
+    } catch (error) {
+        console.error('Error processing /generate-text:', error);
+        res.status(500).json({ 
+            error: "Couldn't process your request" 
+        });
+    }
+});
+
 
 app.delete('/reset', async (req, res) => {
     try {
